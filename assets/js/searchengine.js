@@ -62,7 +62,7 @@ window.onload = function() {
         console.log("triggered!");
         var selectedPic = $(this).data("index");
         $("#picSelectOverlay").css("display", "block");
-        $("#picSelect").attr("src", searchResults[selectedPic].images.original.url);
+        $("#picSelect").attr("src", searchResults[selectedPic].images.downsized.url);
         $("#picSelectName").html(searchResults[selectedPic].title);
         $("#picSelectRating").html(searchResults[selectedPic].rating);
         $("#picSelectUrl").html(searchResults[selectedPic].images.original.url);
