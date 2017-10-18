@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Giphy Search Engine</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
+    <!-- jquery link -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="assets/js/searchengine.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Giphster</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search" id="searchString">
+                    </div>
+                    <button type="submit" class="btn btn-default" id="searchBtn">Submit</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Search for:&nbsp;<span id="searchType">Gifs</span><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" id="searchGifs">Gifs!</a></li>
+                            <li><a href="#" id="searchSticks">Stickers!</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Limit:&nbsp;<span id="limitNum">25</span><span class="caret"></span></a>
+                        <ul id="limitMenu" class="dropdown-menu">
+                            <li><a href="#" class="limitBtn" data-limit="10">Limit: 10</a></li>
+                            <li><a href="#" class="limitBtn" data-limit="25">Limit: 25</a></li>
+                            <li><a href="#" class="limitBtn" data-limit="50">Limit: 50</a></li>
+                            <li><a href="#" class="limitBtn" data-limit="100">Limit: 100</a></li>
+                            <li><a href="#" class="limitBtn" data-limit="1000">Limit: 1000</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ratings<span id="limitNum"></span> <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li id="ratingMenu">
+                                <label>
+                                    <input data-rating="{y}" type="checkbox" class="ratingBox" checked>&nbsp;Y&nbsp;</label>
+                                <label>
+                                    <input data-rating="{g}" type="checkbox" class="ratingBox" checked>&nbsp;G&nbsp;</label>
+                                <label>
+                                    <input data-rating="{pg}" type="checkbox" class="ratingBox" checked>&nbsp;PG&nbsp;</label>
+                                <label>
+                                    <input data-rating="{pg-13}" type="checkbox" class="ratingBox" checked>&nbsp;PG-13&nbsp;</label>
+                                <label>
+                                    <input data-rating="{r}" type="checkbox" class="ratingBox">&nbsp;R&nbsp;</label>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <form class="navbar-form">
+                            <button type="submit" class="btn btn-default" id="showTrends">Show me trending results!</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <div id="picSelectOverlay">
+    	<div id="centerBox">
+        <div id="picSelectBox">
+            <img src="" class="img-responsive" id="picSelect">
+            <p>Gif title: <span id="picSelectName"></span></p>
+            <p>Gif rating: <span id="picSelectRating"></span></p>
+            <p>Gif url: <a href="" id="picSelectLink"><span id="picSelectUrl"></span></a></p>
+        </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div id="searchResults">
+                    <!-- Search results populate here -->
+                    <div class="jumbotron text-center">
+                        <h1>Try looking for some gifs!</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            Giphster &copy; Qamar A. Stationwala
+        </div>
+    </footer>
+</body>
+
+</html>
