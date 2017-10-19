@@ -92,6 +92,22 @@ window.onload = function() {
         $("#picSelectLink").attr("href", searchResults[selectedPic].images.original.url);
     });
 
+    //start gif on hover
+    $(document).on("mouseenter", ".gifResultBox", function() {
+        $(this).children()[0].src = searchResults[$(this)[0].dataset.index].images.downsized.url; 
+    });
+    //end gif when mouse leaves
+    $(document).on("mouseleave", ".gifResultBox", function() {
+        $(this).children()[0].src = searchResults[$(this)[0].dataset.index].images.downsized_still.url; 
+    });
+    // $(".gifResultBox").hover(
+    //         function() {
+    //             console.log($(this).children());
+    //         },
+    //         function () {
+    //             console.log("hover leave triggered");                
+    //         }
+    //     );
 
     //hide overlay
     $("#picSelectOverlay").on("click", function() {
@@ -151,7 +167,7 @@ window.onload = function() {
 
             //new gif image
             var newGif = $("<img>");
-            newGif.attr("src", searchResults[startIndex].images.downsized.url);
+            newGif.attr("src", searchResults[startIndex].images.downsized_still.url);
             newGif.attr("title", searchResults[startIndex].title);
             newGif.addClass("gifResultImg");
             newGifDiv.append(newGif);

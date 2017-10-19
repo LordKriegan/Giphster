@@ -84,8 +84,14 @@ body {
 #picSelect {
 	border-radius: 10%;
 	padding: 10px;
+	height: 250px;
+	width: 250px;
 }
 
 .paginationHolder {
 	display: none;
+}
+
+.centerPaginator {
+	display: inline-block;
 }
