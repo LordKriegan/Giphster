@@ -45,11 +45,20 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Limit:&nbsp;<span id="limitNum">25</span><span class="caret"></span></a>
                         <ul id="limitMenu" class="dropdown-menu">
-                            <li><a href="#" class="limitBtn" data-limit="10">Limit: 10</a></li>
-                            <li><a href="#" class="limitBtn" data-limit="25">Limit: 25</a></li>
-                            <li><a href="#" class="limitBtn" data-limit="50">Limit: 50</a></li>
-                            <li><a href="#" class="limitBtn" data-limit="100">Limit: 100</a></li>
-                            <li><a href="#" class="limitBtn" data-limit="1000">Limit: 1000</a></li>
+                            <li><a href="#" class="limitBtn" data-limit="10">10</a></li>
+                            <li><a href="#" class="limitBtn" data-limit="25">25</a></li>
+                            <li><a href="#" class="limitBtn" data-limit="50">50</a></li>
+                            <li><a href="#" class="limitBtn" data-limit="100">100</a></li>
+                            <li><a href="#" class="limitBtn" data-limit="1000">1000</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Display per Page:&nbsp;<span id="displayPerPage">25</span><span class="caret"></span></a>
+                        <ul id="dppMenu" class="dropdown-menu">
+                            <li><a href="#" class="dppBtn" data-dppnum="10">10</a></li>
+                            <li><a href="#" class="dppBtn" data-dppnum="25">25</a></li>
+                            <li><a href="#" class="dppBtn" data-dppnum="50">50</a></li>
+                            <li><a href="#" class="dppBtn" data-dppnum="100">100</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -91,21 +100,35 @@
         </div>
     </div>
     <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <!-- Search results populate here -->
-                <div id="searchResults" class="jumbotron text-center">
-                    <h1>Try looking for some gifs!</h1>
-                </div>
+    	<div class="row"> <!-- top pagination -->
+    		<div class="col-xs-12">
                 <div class="text-center">
-                    <nav class="text-center">
-                        <ul class="pagination" id="paginationHolder">
-
+                    <nav>
+                        <ul class="pagination paginationHolder">
+						<!-- Dynamically created buttons will go here -->
                         </ul>
                     </nav>
                 </div>
+    		</div>
+    	</div>
+        <div class="row"> <!-- Search results populate here -->
+            <div class="col-xs-12">
+                <div id="searchResults" style="margin-top: 30px" class="jumbotron text-center">
+                    <h1>Try looking for some gifs!</h1>
+                </div>
             </div>
         </div>
+        <div class="row"> <!-- bottom pagination -->
+    		<div class="col-xs-12">
+                <div class="text-center">
+                    <nav>
+                        <ul class="pagination paginationHolder">
+						<!-- Dynamically created buttons will go here -->
+                        </ul>
+                    </nav>
+                </div>
+    		</div>
+    	</div>
     </div>
     <footer class="footer">
         <div class="container">

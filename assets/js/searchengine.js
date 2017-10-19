@@ -5,6 +5,7 @@ var limit = "&limit=25";
 var rating = "{y}{g}{pg}{pg-13}";
 var currPage = 1;
 var totalPages = 1;
+var displayPerPage = 25;
 var searchResults = [];
 window.onload = function() {
     //setup ratings filter
@@ -23,6 +24,13 @@ window.onload = function() {
     $(".limitBtn").on("click", function() {
         limit = "&limit=" + $(this).data("limit");
         $("#limitNum").html($(this).data("limit"));
+    });
+
+    //setup amount to show per page
+    $(".dppBtn").on("click", function() {
+        displayPerPage = $(this).data("dppnum");
+        console.log(displayPerPage);
+        $("#displayPerPage").html(displayPerPage);
     });
 
     //setup gifs or stickers
@@ -55,7 +63,7 @@ window.onload = function() {
             });
         }
     });
-
+    //same as above, except instead of searching, return trending results
     $("#showTrends").on("click", function() {
         $.ajax({
             url: giphyAPI + searchType + "trending" + apiKey + limit + "&q=" + encodeURI($("#searchString").val()),
@@ -72,6 +80,7 @@ window.onload = function() {
             paginationBuilder();
         });
     });
+
     //show overlay when gif is clicked
     $(document).on("click", ".gifResultBox", function() {
         var selectedPic = $(this).data("index");
@@ -87,7 +96,7 @@ window.onload = function() {
     //hide overlay
     $("#picSelectOverlay").on("click", function() {
         $("#picSelectOverlay").css("display", "none");
-    })
+    });
 
     //pagination number buttons
     $(document).on("click", ".pgBtn", function() {
@@ -113,28 +122,28 @@ window.onload = function() {
     function paginationBuilder() { 
         //setup paginator, use do while so at least 1 page button is created
         //prev button
-        $("#paginationHolder").empty()
-        $("#paginationHolder").append("<li><a id='pgPrev' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>");
-        totalPages = 1;
+        $(".paginationHolder").empty()
+        $(".paginationHolder").append("<li><a id='pgPrev' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>");
+        totalPages = 0;
         do {
-            $("#paginationHolder").append("<li><a data-pagenum='" + totalPages + "' class='pgBtn' href='#'>" + totalPages + "</a></li>");
             totalPages++;
-        } while (totalPages < searchResults.length / 20);
+            $(".paginationHolder").append("<li><a data-pagenum='" + totalPages + "' class='pgBtn'>" + totalPages + "</a></li>");
+        } while (totalPages < Math.ceil(searchResults.length / displayPerPage));
         //totalPages is one longer than we want, decrement it
-        totalPages--;
+        //totalPages--;
         //next button
-        $("#paginationHolder").append("<li><a id='pgNext' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>");
-        $("#paginationHolder").css("display", "inline");
+        $(".paginationHolder").append("<li><a id='pgNext' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>");
+        $(".paginationHolder").css("display", "inline");
     }
 
     function populatePage(pageNum) {
         //empty out results
         $("#searchResults").empty();
 
-        //if currPage * 20 - 20 is greater than 0, use that as the start index, otherwise start at 0        
-        var startIndex = (((currPage * 20) - 20) > 0) ? (currPage * 20) - 20 : 0;
-        //if currPage * 20 is greater than searchResults.length, use the .length as the endIndex, otherwise use currPage * 20
-        var endIndex = ((currPage * 20) > searchResults.length) ? searchResults.length : currPage * 20;
+        //if currPage * displayPerPage - displayPerPage is greater than 0, use that as the start index, otherwise start at 0        
+        var startIndex = (((currPage * displayPerPage) - displayPerPage) > 0) ? (currPage * displayPerPage) - displayPerPage : 0;
+        //if currPage * displayPerPage is greater than searchResults.length, use the .length as the endIndex, otherwise use currPage * displayPerPage
+        var endIndex = ((currPage * displayPerPage) > searchResults.length) ? searchResults.length : currPage * displayPerPage;
 
         for (; startIndex < endIndex; startIndex++) {
             //new gif container
