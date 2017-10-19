@@ -100,14 +100,6 @@ window.onload = function() {
     $(document).on("mouseleave", ".gifResultBox", function() {
         $(this).children()[0].src = searchResults[$(this)[0].dataset.index].images.downsized_still.url; 
     });
-    // $(".gifResultBox").hover(
-    //         function() {
-    //             console.log($(this).children());
-    //         },
-    //         function () {
-    //             console.log("hover leave triggered");                
-    //         }
-    //     );
 
     //hide overlay
     $("#picSelectOverlay").on("click", function() {
