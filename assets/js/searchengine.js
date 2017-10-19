@@ -139,7 +139,7 @@ window.onload = function() {
         } while (totalPages < Math.ceil(searchResults.length / displayPerPage));
         //next button
         $(".paginationHolder").append("<li><a id='pgNext' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>");
-        $(".paginationHolder").css("display", "inline");
+        $(".paginationHolder").css("display", "inline-block");
     }
 
     function populatePage(pageNum) {
