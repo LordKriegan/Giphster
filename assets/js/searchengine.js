@@ -119,8 +119,8 @@ window.onload = function() {
         }
     });
 
+    //setup paginator, use do while so at least 1 page button is created
     function paginationBuilder() { 
-        //setup paginator, use do while so at least 1 page button is created
         //prev button
         $(".paginationHolder").empty()
         $(".paginationHolder").append("<li><a id='pgPrev' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>");
@@ -129,8 +129,6 @@ window.onload = function() {
             totalPages++;
             $(".paginationHolder").append("<li><a data-pagenum='" + totalPages + "' class='pgBtn'>" + totalPages + "</a></li>");
         } while (totalPages < Math.ceil(searchResults.length / displayPerPage));
-        //totalPages is one longer than we want, decrement it
-        //totalPages--;
         //next button
         $(".paginationHolder").append("<li><a id='pgNext' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>");
         $(".paginationHolder").css("display", "inline");
