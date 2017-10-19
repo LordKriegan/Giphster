@@ -3,6 +3,8 @@ var searchType = "gifs/"
 var apiKey = "?api_key=P1Fif8al26lmbl3sgo0kibZMEX1W642e";
 var limit = "&limit=25";
 var rating = "{y}{g}{pg}{pg-13}";
+var currPage = 1;
+var totalPages = 1;
 var searchResults = [];
 window.onload = function() {
     //setup ratings filter
@@ -10,8 +12,8 @@ window.onload = function() {
         var ratingMenu = $("#ratingMenu").children();
         rating = ""
         for (var i = 0; i < ratingMenu.length; i++) {
-            if (ratingMenu[i].childNodes[0].checked) {
-                rating += ratingMenu[i].childNodes[0].dataset.rating;
+            if (ratingMenu[i].childNodes[1].checked) {
+                rating += ratingMenu[i].childNodes[1].dataset.rating;
             }
         }
     });
@@ -41,9 +43,15 @@ window.onload = function() {
                 url: giphyAPI + searchType + "search" + apiKey + limit + "&q=" + encodeURI($("#searchString").val()),
                 method: "GET"
             }).done(function(response) {
-                searchResults = response.data;
-                console.log(searchResults);
-                populatePage();
+                searchResults = [];
+                for (var i = 0; i < response.data.length; i++) {
+                    if (rating.includes("{" + response.data[i].rating + "}")) {
+                        searchResults.push(response.data[i]);
+                    }
+                }
+                currPage = 1;
+                populatePage(currPage);
+                paginationBuilder();
             });
         }
     });
@@ -53,13 +61,19 @@ window.onload = function() {
             url: giphyAPI + searchType + "trending" + apiKey + limit + "&q=" + encodeURI($("#searchString").val()),
             method: "GET"
         }).done(function(response) {
-            searchResults = response.data;
-            populatePage();
+            searchResults = [];
+            for (var i = 0; i < response.data.length; i++) {
+                if (rating.includes("{" + response.data[i].rating + "}")) {
+                    searchResults.push(response.data[i]);
+                }
+            }
+            currPage = 1;
+            populatePage(currPage);
+            paginationBuilder();
         });
     });
-
+    //show overlay when gif is clicked
     $(document).on("click", ".gifResultBox", function() {
-        console.log("triggered!");
         var selectedPic = $(this).data("index");
         $("#picSelectOverlay").css("display", "block");
         $("#picSelect").attr("src", searchResults[selectedPic].images.downsized.url);
@@ -70,35 +84,80 @@ window.onload = function() {
     });
 
 
+    //hide overlay
     $("#picSelectOverlay").on("click", function() {
         $("#picSelectOverlay").css("display", "none");
     })
 
-    function populatePage() {
-        $("#searchResults").empty();
-        for (var i = 0; i < searchResults.length; i++) {
-            if (rating.includes("{" + searchResults[i].rating + "}")) {
-                //new gif container
-                var newGifDiv = $("<div>");
-                newGifDiv.addClass("gifResultBox");
-                newGifDiv.attr("data-index", i);
+    //pagination number buttons
+    $(document).on("click", ".pgBtn", function() {
+        currPage = $(this).data("pagenum");
+        populatePage(currPage); 
+    });
 
-                //new gif image
-                var newGif = $("<img>");
-                newGif.attr("src", searchResults[i].images.downsized.url);
-                newGif.attr("title", searchResults[i].title);
-                newGif.addClass("gifResultImg");
-                newGifDiv.append(newGif);
-
-                $("#searchResults").append(newGifDiv);
-            }
+    //pagination prev button
+    $(document).on("click", "#pgPrev", function() {
+        if (currPage > 1) {
+            currPage--;
+            populatePage(currPage);
         }
+    });
+    //pagination next button
+    $(document).on("click", "#pgNext", function() {
+        if (currPage < totalPages) {
+            currPage++;
+            populatePage(currPage);
+        }
+    });
+
+    function paginationBuilder() { 
+        //setup paginator, use do while so at least 1 page button is created
+        //prev button
+        $("#paginationHolder").empty()
+        $("#paginationHolder").append("<li><a id='pgPrev' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>");
+        totalPages = 1;
+        do {
+            $("#paginationHolder").append("<li><a data-pagenum='" + totalPages + "' class='pgBtn' href='#'>" + totalPages + "</a></li>");
+            totalPages++;
+        } while (totalPages < searchResults.length / 20);
+        //totalPages is one longer than we want, decrement it
+        totalPages--;
+        //next button
+        $("#paginationHolder").append("<li><a id='pgNext' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>");
+        $("#paginationHolder").css("display", "inline");
+    }
+
+    function populatePage(pageNum) {
+        //empty out results
+        $("#searchResults").empty();
+
+        //if currPage * 20 - 20 is greater than 0, use that as the start index, otherwise start at 0        
+        var startIndex = (((currPage * 20) - 20) > 0) ? (currPage * 20) - 20 : 0;
+        //if currPage * 20 is greater than searchResults.length, use the .length as the endIndex, otherwise use currPage * 20
+        var endIndex = ((currPage * 20) > searchResults.length) ? searchResults.length : currPage * 20;
+
+        for (; startIndex < endIndex; startIndex++) {
+            //new gif container
+            var newGifDiv = $("<div>");
+            newGifDiv.addClass("gifResultBox");
+            newGifDiv.attr("data-index", startIndex);
+
+            //new gif image
+            var newGif = $("<img>");
+            newGif.attr("src", searchResults[startIndex].images.downsized.url);
+            newGif.attr("title", searchResults[startIndex].title);
+            newGif.addClass("gifResultImg");
+            newGifDiv.append(newGif);
+
+            $("#searchResults").append(newGifDiv);
+        }
+
         if (!$("#searchResults").html()) {
-        	var newDiv = $("<div>");
-        	newDiv.addClass("jumbotron text-center");
-        	newDiv.append("<h1>Nothing Found!</h1>");
-        	newDiv.append("<p>Try less restrictive search parameters.</p>");
-        	$("#searchResults").append(newDiv);
+            var newDiv = $("<div>");
+            newDiv.append("<h1>Nothing Found!</h1>");
+            newDiv.append("<p>Try less restrictive search parameters.</p>");
+            $("#searchResults").append(newDiv);
+            $("#paginationHolder").css("display", "none");
         }
     }
 };
