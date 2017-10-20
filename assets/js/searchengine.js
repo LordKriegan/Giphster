@@ -50,7 +50,7 @@ window.onload = function() {
         console.log("search button clicked");
         if ($("#searchString").val()) {
             $.ajax({
-                url: giphyAPI + searchType + "search" + apiKey + limit + "&q=" + encodeURI($("#searchString").val()),
+                url: giphyAPI + searchType + "search" + apiKey + limit + "&q=" + encodeURI($("#searchString").val().trim()),
                 method: "GET"
             }).done(function(response) {
                 searchResults = [];
