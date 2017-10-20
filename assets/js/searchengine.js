@@ -45,10 +45,12 @@ window.onload = function() {
     });
 
     //generate ajax request, save response to global variable, and populate list.
-    $("#searchBtn").on("click", function() {
+    $("#searchBtn").on("click", function(e) {
+        e.preventDefault();
+        console.log("search button clicked");
         if ($("#searchString").val()) {
             $.ajax({
-                url: giphyAPI + searchType + "search" + apiKey + limit + "&q=" + encodeURI($("#searchString").val()),
+                url: giphyAPI + searchType + "search" + apiKey + limit + "&q=" + encodeURI($("#searchString").val().trim()),
                 method: "GET"
             }).done(function(response) {
                 searchResults = [];
@@ -64,7 +66,8 @@ window.onload = function() {
         }
     });
     //same as above, except instead of searching, return trending results
-    $("#showTrends").on("click", function() {
+    $("#showTrends").on("click", function(e) {
+        e.preventDefault();
         $.ajax({
             url: giphyAPI + searchType + "trending" + apiKey + limit + "&q=" + encodeURI($("#searchString").val()),
             method: "GET"
