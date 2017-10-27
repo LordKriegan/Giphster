@@ -7,6 +7,7 @@ var currPage = 1;
 var totalPages = 1;
 var displayPerPage = 25;
 var searchResults = [];
+var savedSearches = [];
 window.onload = function() {
     //setup ratings filter
     $(".ratingBox").on("click", function() {
@@ -47,25 +48,34 @@ window.onload = function() {
     //generate ajax request, save response to global variable, and populate list.
     $("#searchBtn").on("click", function(e) {
         e.preventDefault();
-        console.log("search button clicked");
-        if ($("#searchString").val()) {
-            $.ajax({
-                url: giphyAPI + searchType + "search" + apiKey + limit + "&q=" + encodeURI($("#searchString").val().trim()),
-                method: "GET"
-            }).done(function(response) {
-                searchResults = [];
-                for (var i = 0; i < response.data.length; i++) {
-                    if (rating.includes("{" + response.data[i].rating + "}")) {
-                        searchResults.push(response.data[i]);
-                    }
-                }
-                currPage = 1;
-                populatePage(currPage);
-                paginationBuilder();
-            });
+        var searchResult = $("#searchString").val().trim();
+        if (searchResult) {
+            performSearch(searchResult);
+            if (e.shiftKey) {
+                savedSearches.push(searchResult);
+                $("#savedSearches").append("<li data-saved-search-index='" + (savedSearches.length - 1) + "'><a href='#' class='savedSearchBtn'>" + searchResult + "</a></li>");
+            }
         }
     });
-    //same as above, except instead of searching, return trending results
+    $(document).on("click", ".savedSearchBtn", function(e) {
+        e.preventDefault();
+        if (e.shiftKey) {
+            savedSearches.splice($(this).attr("data-saved-search-index"), 1);
+            $(this).remove();
+            //start i at 1 because child 0 is the instructional element
+            var childElems = $("#savedSearches").children();
+            for (var i = 1; i < childElems.length; i++) {
+                console.log(childElems[i]);
+                console.log(savedSearches[i - 1]);
+                $(childElems[i]).attr("data-saved-search-index", i - 1);
+            }
+        } else {
+            var searchStr = $(this).html();
+            performSearch(searchStr);
+            $("#searchString").val(searchStr);
+        }
+    });
+    //same as performSearch(), except instead of searching, return trending results
     $("#showTrends").on("click", function(e) {
         e.preventDefault();
         $.ajax({
@@ -97,11 +107,11 @@ window.onload = function() {
 
     //start gif on hover
     $(document).on("mouseenter", ".gifResultBox", function() {
-        $(this).children()[0].src = searchResults[$(this)[0].dataset.index].images.downsized.url; 
+        $(this).children()[0].src = searchResults[$(this)[0].dataset.index].images.downsized.url;
     });
     //end gif when mouse leaves
     $(document).on("mouseleave", ".gifResultBox", function() {
-        $(this).children()[0].src = searchResults[$(this)[0].dataset.index].images.downsized_still.url; 
+        $(this).children()[0].src = searchResults[$(this)[0].dataset.index].images.downsized_still.url;
     });
 
     //hide overlay
@@ -112,7 +122,7 @@ window.onload = function() {
     //pagination number buttons
     $(document).on("click", ".pgBtn", function() {
         currPage = $(this).data("pagenum");
-        populatePage(currPage); 
+        populatePage(currPage);
     });
 
     //pagination prev button
@@ -129,9 +139,25 @@ window.onload = function() {
             populatePage(currPage);
         }
     });
-
+    //perform search, ajax call
+    function performSearch(searchStr) {
+        $.ajax({
+            url: giphyAPI + searchType + "search" + apiKey + limit + "&q=" + encodeURI(searchStr),
+            method: "GET"
+        }).done(function(response) {
+            searchResults = [];
+            for (var i = 0; i < response.data.length; i++) {
+                if (rating.includes("{" + response.data[i].rating + "}")) {
+                    searchResults.push(response.data[i]);
+                }
+            }
+            currPage = 1;
+            populatePage(currPage);
+            paginationBuilder();
+        });
+    }
     //setup paginator, use do while so at least 1 page button is created
-    function paginationBuilder() { 
+    function paginationBuilder() {
         //prev button
         $(".paginationHolder").empty()
         $(".paginationHolder").append("<li><a id='pgPrev' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>");
