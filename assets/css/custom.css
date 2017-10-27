@@ -92,3 +92,10 @@ body {
 .paginationHolder {
 	display: none;
 }
+
+#ratingMenu {
+	text-align: center;
+}
+.ratingsLabel {
+	display: block;
+}

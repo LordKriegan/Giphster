@@ -39,7 +39,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Saved...<span class="caret"></span></a>
                         <ul class="dropdown-menu" id="savedSearches">
                             <!--saved searches populate here-->
-                            <li><a href="#">Shift+click to save a search! Shift+click here to delete one.</a></li>
+                            <li id="testBtn"><a href="#">Shift+click to save a search! Shift+click here to delete one.</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -72,15 +72,15 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ratings<span id="limitNum"></span> <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li id="ratingMenu">
-                                <label>
+                                <label class="ratingsLabel">
                                     <input data-rating="{y}" type="checkbox" class="ratingBox" checked>&nbsp;Y&nbsp;</label>
-                                <label>
+                                <label class="ratingsLabel">
                                     <input data-rating="{g}" type="checkbox" class="ratingBox" checked>&nbsp;G&nbsp;</label>
-                                <label>
+                                <label class="ratingsLabel">
                                     <input data-rating="{pg}" type="checkbox" class="ratingBox" checked>&nbsp;PG&nbsp;</label>
-                                <label>
+                                <label class="ratingsLabel">
                                     <input data-rating="{pg-13}" type="checkbox" class="ratingBox" checked>&nbsp;PG-13&nbsp;</label>
-                                <label>
+                                <label class="ratingsLabel">
                                     <input data-rating="{r}" type="checkbox" class="ratingBox">&nbsp;R&nbsp;</label>
                             </li>
                         </ul>

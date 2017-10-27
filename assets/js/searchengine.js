@@ -52,7 +52,7 @@ window.onload = function() {
             performSearch(searchResult);
             if (e.shiftKey) {
                 savedSearches.push(searchResult);
-                $("#savedSearches").append("<li data-saved-search-index='" + (savedSearches.length - 1) + "'><a href='#' class='savedSearchBtn'>" + searchResult + "</a></li>");
+                $("#savedSearches").append("<li class='savedSearchBtn' data-saved-search-index='" + (savedSearches.length - 1) + "'><a href='#'>" + searchResult + "</a></li>");
             }
         }
     });
@@ -67,7 +67,7 @@ window.onload = function() {
                 $(childElems[i]).attr("data-saved-search-index", i - 1);
             }
         } else {
-            var searchStr = $(this).html();
+            var searchStr = savedSearches[$(this).attr("data-saved-search-index")];
             performSearch(searchStr);
             $("#searchString").val(searchStr);
         }
