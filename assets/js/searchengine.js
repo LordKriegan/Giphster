@@ -30,7 +30,6 @@ window.onload = function() {
     //setup amount to show per page
     $(".dppBtn").on("click", function() {
         displayPerPage = $(this).data("dppnum");
-        console.log(displayPerPage);
         $("#displayPerPage").html(displayPerPage);
     });
 
@@ -65,8 +64,6 @@ window.onload = function() {
             //start i at 1 because child 0 is the instructional element
             var childElems = $("#savedSearches").children();
             for (var i = 1; i < childElems.length; i++) {
-                console.log(childElems[i]);
-                console.log(savedSearches[i - 1]);
                 $(childElems[i]).attr("data-saved-search-index", i - 1);
             }
         } else {
