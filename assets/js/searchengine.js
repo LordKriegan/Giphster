@@ -44,7 +44,7 @@ window.onload = function() {
         $("#searchType").html("Stickers!");
     });
 
-    //generate ajax request, save response to global variable, and populate list.
+    //on regular click, performSearch with searchString value, then, if shift is pressed, also save search to saved searches menu
     $("#searchBtn").on("click", function(e) {
         e.preventDefault();
         var searchResult = $("#searchString").val().trim();
@@ -56,6 +56,7 @@ window.onload = function() {
             }
         }
     });
+    //if shift is pressed, remove saved search from menu, otherwise search this string
     $(document).on("click", ".savedSearchBtn", function(e) {
         e.preventDefault();
         if (e.shiftKey) {
@@ -155,8 +156,9 @@ window.onload = function() {
     }
     //setup paginator, use do while so at least 1 page button is created
     function paginationBuilder() {
-        //prev button
+        //reset paginator
         $(".paginationHolder").empty()
+        //prev button
         $(".paginationHolder").append("<li><a id='pgPrev' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>");
         totalPages = 0;
         do {
